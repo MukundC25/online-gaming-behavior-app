@@ -75,28 +75,39 @@ elif menu == "🤖 ML Prediction":
     age = st.slider("Age", 15, 50, 25)
     playtime = st.slider("Daily Playtime (Hours)", 0, 24, 8)
     sessions = st.slider("Sessions Per Week", 0, 20, 10)
+    avg_session = st.slider("Avg Session Duration (Minutes)", 10, 200, 95)
     difficulty = st.selectbox("Game Difficulty", ["Easy", "Medium", "Hard"])
     genre = st.selectbox("Game Genre", ["Action", "RPG", "Simulation", "Sports", "Strategy"])
     purchase = st.selectbox("In-Game Purchases", ["No", "Yes"])
 
-    # Encoding
+    # Encoding mappings
     mapping = {
         "Easy": 0, "Medium": 1, "Hard": 2,
         "Action": 0, "RPG": 1, "Simulation": 2, "Sports": 3, "Strategy": 4,
         "No": 0, "Yes": 1
     }
 
-    input_data = np.array([[age, playtime, sessions, mapping[purchase], mapping[difficulty], mapping[genre]]])
+    # FIXED input vector (7 features)
+    input_data = np.array([[
+        age,
+        playtime,
+        sessions,
+        avg_session,
+        mapping[purchase],
+        mapping[difficulty],
+        mapping[genre]
+    ]])
 
     pred = model.predict(input_data)[0]
     labels = {0: "Low", 1: "Medium", 2: "High"}
 
     st.success(f"📢 **Predicted Engagement Level:** {labels[pred]} 🔥")
 
-    # Feature importance
+    # Feature Importance
     st.subheader("🎯 Feature Importance")
     fig, ax = plt.subplots()
     importance = model.feature_importances_
-    feature_names = ["Age", "PlayTimeHours", "SessionsPerWeek", "InGamePurchases", "Difficulty", "Genre"]
+    feature_names = ["Age", "PlayTimeHours", "SessionsPerWeek", "AvgSessionDurationMinutes", 
+                     "InGamePurchases", "Difficulty", "Genre"]
     sns.barplot(x=importance, y=feature_names, ax=ax)
     st.pyplot(fig)
