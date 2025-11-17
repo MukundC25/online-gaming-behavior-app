@@ -24,7 +24,7 @@ The repository contains:
 
 ## 🚀 Live Demo  
 🔗 **Streamlit App:**  
-> https://your-streamlit-app-url.streamlit.app  
+> [https://online-gaming-behavior.streamlit.app]  
 *(Replace with your actual deployed URL)*
 
 ---
